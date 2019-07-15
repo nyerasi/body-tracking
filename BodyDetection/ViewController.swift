@@ -8,6 +8,7 @@ The sample app's main view controller.
 import UIKit
 import RealityKit
 import ARKit
+import Combine
 
 class ViewController: UIViewController, ARSessionDelegate {
 
@@ -41,15 +42,19 @@ class ViewController: UIViewController, ARSessionDelegate {
         arView.scene.addAnchor(characterAnchor)
         
         // Asynchronously load the 3D character.
-        _ = Entity.loadBodyTrackedAsync(named: "character/robot").sink(receiveCompletion: { completion in
-            if case let .failure(error) = completion {
-                print("Error: Unable to load model: \(error.localizedDescription)")
-            }
+        var cancellable: AnyCancellable? = nil
+        cancellable = Entity.loadBodyTrackedAsync(named: "character/robot").sink(
+            receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print("Error: Unable to load model: \(error.localizedDescription)")
+                }
+                cancellable?.cancel()
         }, receiveValue: { (character: Entity) in
             if let character = character as? BodyTrackedEntity {
                 // Scale the character to human size
                 character.scale = [1.0, 1.0, 1.0]
                 self.character = character
+                cancellable?.cancel()
             } else {
                 print("Error: Unable to load model as BodyTrackedEntity")
             }
