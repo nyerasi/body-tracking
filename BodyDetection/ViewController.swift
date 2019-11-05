@@ -13,17 +13,11 @@ import Combine
 class ViewController: UIViewController, ARSessionDelegate {
 
     @IBOutlet var arView: ARView!
-    @IBOutlet weak var messageLabel: MessageLabel!
     
     // The 3D character to display.
     var character: BodyTrackedEntity?
     let characterOffset: SIMD3<Float> = [-1.0, 0, 0] // Offset the character by one meter to the left
     let characterAnchor = AnchorEntity()
-    
-    // A tracked raycast which is used to place the character accurately
-    // in the scene wherever the user taps.
-    var placementRaycast: ARTrackedRaycast?
-    var tapPlacementAnchor: AnchorEntity?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

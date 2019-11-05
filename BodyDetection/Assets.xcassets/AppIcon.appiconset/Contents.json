@@ -3,49 +3,49 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-2.png",
+      "filename" : "AR_icon_3D_40.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-3.png",
+      "filename" : "AR_icon_3D_60.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-6.png",
+      "filename" : "AR_icon_3D_58.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-8.png",
+      "filename" : "AR_icon_3D_87.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy.png",
+      "filename" : "AR_icon_3D_80.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-5.png",
+      "filename" : "AR_icon_3D_120.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-4.png",
+      "filename" : "AR_icon_3D_120.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "AR_icon_3D copy-9.png",
+      "filename" : "AR_icon_3D_180.png",
       "scale" : "3x"
     },
     {
@@ -56,7 +56,7 @@
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "AR_icon_3D copy-10.png",
+      "filename" : "AR_icon_3D_40.png",
       "scale" : "2x"
     },
     {
@@ -67,42 +67,43 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "AR_icon_3D copy-7.png",
+      "filename" : "AR_icon_3D_58.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "ipad",
       "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "AR_icon_3D_40-1.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "AR_icon_3D copy-1.png",
+      "filename" : "AR_icon_3D_80.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "AR_icon_3D copy-11.png",
+      "filename" : "AR_icon_3D_76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "AR_icon_3D copy-12.png",
+      "filename" : "AR_icon_3D_152.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "AR_icon_3D copy-13.png",
+      "filename" : "AR_icon_3D_167.png",
       "scale" : "2x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "AR_icon_3D.png",
+      "filename" : "AR_icon_3D_1024.png",
       "scale" : "1x"
     }
   ],
