@@ -8,8 +8,14 @@
 
 import UIKit
 
-class AboutViewController: UITableViewController {
+struct Person {
+    let name: String!
+    let affiliation: String!
+    let profileImage: UIImage!
+}
 
+class AboutViewController: UITableViewController {
+    var people = [Person]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,11 +26,16 @@ class AboutViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    func setupPeople() {
+        let person = Person(name: "Nikhil Yerasi", affiliation: "UC Berkeley Data Science", profileImage: UIImage(named: "nik"))
+        // continue with others, read from json eventually
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
+        
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

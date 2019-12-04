@@ -1,0 +1,22 @@
+{
+    "People": [
+        {
+            "Name": "Nikhil Yerasi",
+            "Affiliation": "Undergraduate, Data Science",
+            "Position": "iOS Developer",
+            
+        },
+        {
+            "Name": "Caroline Liu",
+            "Affiliation": "Undergraduate, EECS",
+            "Position": "Mobile Developer",
+            
+        },
+        {
+            "Name": "Mathias Vissers",
+            "Affiliation": "Masters, Translational Medicine",
+            "Position": "Project Lead",
+            
+        }
+    ]
+}
