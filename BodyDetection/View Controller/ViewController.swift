@@ -13,12 +13,33 @@ import Combine
 class ViewController: UIViewController, ARSessionDelegate {
 
     @IBOutlet var arView: ARView!
+    @IBOutlet var printoutTextView: UITextView!
+    
+    // controls opacity of text view
+    var shouldShowData: Bool = true
+    var printoutText: String = ""
+    @IBAction func showDataPressed(_ sender: Any) {
+        if shouldShowData {
+            printoutTextView.text = printoutText
+            printoutTextView.alpha = 1
+        } else {
+            printoutTextView.alpha = 0
+        }
+        shouldShowData = !shouldShowData
+    }
+    
+    @IBAction func restartPressed(_ sender: Any) {
+        printoutText = ""
+        printoutTextView.text = printoutText
+    }
     
     // The 3D character to display.
     var character: BodyTrackedEntity?
     let characterOffset: SIMD3<Float> = [-1.0, 0, 0] // Offset the character by one meter to the left
     let characterAnchor = AnchorEntity()
-    
+    override func viewDidLoad() {
+        printoutTextView.alpha = 0
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         arView.session.delegate = self
@@ -55,9 +76,24 @@ class ViewController: UIViewController, ARSessionDelegate {
         })
     }
     
+    func writeAnchor(anchor: ARAnchor) {
+        printoutText += "\n anchor name: \(String(describing: anchor.name))"
+        printoutText += "\n anchor description: \(anchor.description)"
+        printoutText += "\n anchor transform: \(anchor.transform)"
+        printoutTextView.text = printoutText
+    }
+    
+    func writeSummary() {
+        printoutText += "updated character position"
+        printoutTextView.text = printoutText
+    }
+    
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
         for anchor in anchors {
             guard let bodyAnchor = anchor as? ARBodyAnchor else { continue }
+            
+            // Write data to text view — performance nightmare
+//            writeAnchor(anchor: bodyAnchor)
             
             // Update the position of the character anchor's position.
             let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
