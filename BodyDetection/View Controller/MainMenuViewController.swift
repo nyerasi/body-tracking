@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MainMenuViewController: UIViewController {
+class MainMenuViewController: UIViewController, ModalViewControllerDelegate {
     @IBOutlet var launchButton: UIButton!
     @IBOutlet var helpButton: UIButton!
     
@@ -37,6 +37,41 @@ class MainMenuViewController: UIViewController {
     @IBAction func aboutButtonPressed(_ sender: Any) {
         if let button = sender as? UIButton {
             button.pulse()
+        }
+        self.definesPresentationContext = true
+        self.providesPresentationContextTransitionStyle = true
+        
+        self.overlayBlurredBackgroundView()
+    }
+    
+    func overlayBlurredBackgroundView() {
+        
+        let blurredBackgroundView = UIVisualEffectView()
+        
+        blurredBackgroundView.frame = view.frame
+        blurredBackgroundView.effect = UIBlurEffect(style: .dark)
+        
+        view.addSubview(blurredBackgroundView)
+        
+    }
+    
+    func removeBlurredBackgroundView() {
+        
+        for subview in view.subviews {
+            if subview.isKind(of: UIVisualEffectView.self) {
+                subview.removeFromSuperview()
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if identifier == "showAbout" {
+                if let viewController = segue.destination as? AboutViewController {
+                viewController.delegate = self
+                viewController.modalPresentationStyle = .overFullScreen
+                }
+            }
         }
     }
     

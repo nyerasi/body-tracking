@@ -13,11 +13,13 @@ import Combine
 class ViewController: UIViewController, ARSessionDelegate {
 
     @IBOutlet var arView: ARView!
-    @IBOutlet var printoutTextView: UITextView!
+//    @IBOutlet var printoutTextView: UITextView!
     
     // controls opacity of text view
     var shouldShowData: Bool = true
     var printoutText: String = ""
+    
+    /*
     @IBAction func showDataPressed(_ sender: Any) {
         if shouldShowData {
             printoutTextView.text = printoutText
@@ -27,10 +29,11 @@ class ViewController: UIViewController, ARSessionDelegate {
         }
         shouldShowData = !shouldShowData
     }
+     */
     
     @IBAction func restartPressed(_ sender: Any) {
-        printoutText = ""
-        printoutTextView.text = printoutText
+//        printoutText = ""
+//        printoutTextView.text = printoutText
     }
     
     // The 3D character to display.
@@ -38,7 +41,6 @@ class ViewController: UIViewController, ARSessionDelegate {
     let characterOffset: SIMD3<Float> = [-1.0, 0, 0] // Offset the character by one meter to the left
     let characterAnchor = AnchorEntity()
     override func viewDidLoad() {
-        printoutTextView.alpha = 0
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -80,12 +82,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         printoutText += "\n anchor name: \(String(describing: anchor.name))"
         printoutText += "\n anchor description: \(anchor.description)"
         printoutText += "\n anchor transform: \(anchor.transform)"
-        printoutTextView.text = printoutText
-    }
-    
-    func writeSummary() {
-        printoutText += "updated character position"
-        printoutTextView.text = printoutText
+//        printoutTextView.text = printoutText
     }
     
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {

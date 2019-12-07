@@ -18,6 +18,8 @@
 		B02E902423974DB80003D5ED /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E902323974DB80003D5ED /* UIButtonExtension.swift */; };
 		B02E902623974E870003D5ED /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E902523974E870003D5ED /* MainMenuViewController.swift */; };
 		B02E9028239762550003D5ED /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E9027239762550003D5ED /* AboutViewController.swift */; };
+		B0EFC392239B765E007924D2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC391239B765E007924D2 /* Data.swift */; };
+		B0EFC394239B77F6007924D2 /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC393239B77F6007924D2 /* PersonTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		B02E902323974DB80003D5ED /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		B02E902523974E870003D5ED /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		B02E9027239762550003D5ED /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		B0EFC391239B765E007924D2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		B0EFC393239B77F6007924D2 /* PersonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,7 @@
 		2F60E1D922631E0F00357E98 /* BodyDetection */ = {
 			isa = PBXGroup;
 			children = (
+				B0EFC393239B77F6007924D2 /* PersonTableViewCell.swift */,
 				B02E902223974D8C0003D5ED /* View Controller */,
 				2F60E1DA22631E0F00357E98 /* AppDelegate.swift */,
 				0C8C7867228387D2006A6EE1 /* character */,
@@ -88,6 +93,7 @@
 				2F60E1EB22631E0F00357E98 /* Info.plist */,
 				B02E902323974DB80003D5ED /* UIButtonExtension.swift */,
 				B01FF738239769C000927182 /* People.json */,
+				B0EFC391239B765E007924D2 /* Data.swift */,
 			);
 			path = BodyDetection;
 			sourceTree = "<group>";
@@ -186,9 +192,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B02E902623974E870003D5ED /* MainMenuViewController.swift in Sources */,
+				B0EFC392239B765E007924D2 /* Data.swift in Sources */,
 				2F60E1DD22631E0F00357E98 /* ViewController.swift in Sources */,
 				2F60E1DB22631E0F00357E98 /* AppDelegate.swift in Sources */,
 				B02E9028239762550003D5ED /* AboutViewController.swift in Sources */,
+				B0EFC394239B77F6007924D2 /* PersonTableViewCell.swift in Sources */,
 				B02E902423974DB80003D5ED /* UIButtonExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
