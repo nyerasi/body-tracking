@@ -1,5 +1,5 @@
 //
-//  UIButtonExtension.swift
+//  UIExtensions.swift
 //  BodyDetection
 //
 //  Created by Nikhil Yerasi on 12/3/19.
@@ -15,8 +15,8 @@ extension UIButton {
         pulse.duration = 0.4
         pulse.fromValue = 0.9
         pulse.toValue = 1.0
-        pulse.autoreverses = true
-        pulse.repeatCount = 2
+        pulse.autoreverses = false
+        pulse.repeatCount = 1
         pulse.initialVelocity = 0.5
         pulse.damping = 1.0
         layer.add(pulse, forKey: nil)
@@ -31,5 +31,23 @@ extension UIButton {
         flash.autoreverses = true
         flash.repeatCount = 2
         layer.add(flash, forKey: nil)
+    }
+}
+
+extension UIView
+{
+    func animateCornerRadius(from: CGFloat, to: CGFloat, duration: CFTimeInterval)
+    {
+        CATransaction.begin()
+        let animation = CABasicAnimation(keyPath: "cornerRadius")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.fromValue = from
+        animation.toValue = to
+        animation.duration = duration
+        CATransaction.setCompletionBlock { [weak self] in
+            self?.layer.cornerRadius = to
+        }
+        layer.add(animation, forKey: "cornerRadius")
+        CATransaction.commit()
     }
 }

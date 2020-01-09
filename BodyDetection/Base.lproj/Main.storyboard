@@ -123,8 +123,46 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="ARView" customClass="ARView" customModule="RealityKit">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ON-81-KQU">
+                                <rect key="frame" x="169.5" y="728" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="YJa-ex-756"/>
+                                    <constraint firstAttribute="height" constant="75" id="uKl-hc-o7h"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Record"/>
+                                <connections>
+                                    <action selector="recordPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YBE-g7-8O9"/>
+                                </connections>
+                            </button>
+                            <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L85-Bd-MZp">
+                                <rect key="frame" x="87" y="106" width="240" height="50"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="2VS-Ym-b4N"/>
+                                    <constraint firstAttribute="width" constant="240" id="Med-In-gLi"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOn-9i-YcO">
+                                <rect key="frame" x="102" y="120.5" width="210" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="BOn-9i-YcO" firstAttribute="centerX" secondItem="L85-Bd-MZp" secondAttribute="centerX" id="PFn-Mc-gUW"/>
+                            <constraint firstItem="L85-Bd-MZp" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="PKc-AX-PpK"/>
+                            <constraint firstItem="5ON-81-KQU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Set-Sx-hcY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5ON-81-KQU" secondAttribute="bottom" constant="59" id="a7w-lw-LGy"/>
+                            <constraint firstItem="BOn-9i-YcO" firstAttribute="centerY" secondItem="L85-Bd-MZp" secondAttribute="centerY" id="dD4-oz-1PV"/>
+                            <constraint firstItem="BOn-9i-YcO" firstAttribute="height" secondItem="L85-Bd-MZp" secondAttribute="height" multiplier="0.42" id="fLW-0E-qgw"/>
+                            <constraint firstItem="L85-Bd-MZp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="18" id="gBL-1X-ZU7"/>
+                            <constraint firstItem="BOn-9i-YcO" firstAttribute="width" secondItem="L85-Bd-MZp" secondAttribute="width" multiplier="0.875" id="y2v-fn-JTk"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="j5D-FW-Xds">
@@ -136,11 +174,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="arView" destination="8bC-Xf-vdC" id="hvU-Ek-za3"/>
+                        <outlet property="recordButton" destination="5ON-81-KQU" id="mjJ-zV-Vad"/>
+                        <outlet property="timerLabel" destination="BOn-9i-YcO" id="hrw-kI-8Qg"/>
+                        <outlet property="timerView" destination="L85-Bd-MZp" id="QqX-Nn-qsG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="225" y="-479"/>
+            <point key="canvasLocation" x="224.63768115942031" y="-479.46428571428567"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="4eH-nY-wJA">

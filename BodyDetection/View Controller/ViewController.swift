@@ -9,16 +9,22 @@ import UIKit
 import RealityKit
 import ARKit
 import Combine
+import ReplayKit
 
 class ViewController: UIViewController, ARSessionDelegate {
 
+    @IBOutlet var recordButton: UIButton!
     @IBOutlet var arView: ARView!
-//    @IBOutlet var printoutTextView: UITextView!
+    @IBOutlet var timerView: UIView!
+    @IBOutlet var timerLabel: UILabel!
     
-    // controls opacity of text view
-    var shouldShowData: Bool = true
+    // write transform data to json
     var printoutText: String = ""
     
+    // controls recording
+    var isRecording = false
+    let recorder = RPScreenRecorder.shared()
+ 
     /*
     @IBAction func showDataPressed(_ sender: Any) {
         if shouldShowData {
@@ -31,16 +37,93 @@ class ViewController: UIViewController, ARSessionDelegate {
     }
      */
     
+    var timer: Timer?
+    var timeElapsed: Double = 0.0
+    var milliseconds: Int = 0
+    
+    @IBAction func recordPressed(_ sender: Any) {
+        if let button = sender as? UIButton {
+            button.pulse()
+        }
+        isRecording = !isRecording
+        updateButtonState()
+    }
+    
+    func updateButtonState() {
+        if isRecording {
+            startRecording()
+        } else {
+            stopRecording()
+        }
+    }
+    
+    func startRecording() {
+        presentTimer()
+        recordButton.setTitle("Stop", for: .normal)
+        recordButton.layer.cornerRadius = 10
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { (timer) in
+            self.updateTimerLabel()
+        })
+    }
+    
+    func stopRecording() {
+        saveRecording()
+        timer?.invalidate()
+        milliseconds = 0
+        hideTimer()
+        recordButton.setTitle("Start", for: .normal)
+        recordButton.layer.cornerRadius = recordButton.layer.frame.height / 2
+    }
+    
+    func updateTimerLabel() {
+        var toDisplay = ""
+        milliseconds += 1
+        if (milliseconds / 100) < 10 {
+            toDisplay = "0\(milliseconds / 100) : \(milliseconds % 100)"
+        } else {
+            toDisplay = "\(milliseconds / 100):\(milliseconds % 100)"
+        }
+        self.timerLabel.text = toDisplay
+    }
+    
+    func presentTimer() {
+        UIView.animate(withDuration: 0.5) {
+            self.timerView.alpha = 0.75
+            self.timerLabel.alpha = 1
+        }
+    }
+    
+    func hideTimer() {
+        UIView.animate(withDuration: 0.5) {
+            self.timerView.alpha = 0
+            self.timerLabel.alpha = 0
+        }
+    }
+
+    // placeholder for ReplayKit functionality
+    func saveRecording() {
+        let alertViewController = UIAlertController(title: "Recording Saved", message: "New \(milliseconds / 100)-second recording has been saved to camera roll", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Okay!", style: .default, handler: nil)
+        alertViewController.addAction(action)
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    
     @IBAction func restartPressed(_ sender: Any) {
-//        printoutText = ""
-//        printoutTextView.text = printoutText
+        printoutText = ""
     }
     
     // The 3D character to display.
     var character: BodyTrackedEntity?
     let characterOffset: SIMD3<Float> = [-1.0, 0, 0] // Offset the character by one meter to the left
     let characterAnchor = AnchorEntity()
+    
     override func viewDidLoad() {
+        recordButton.layer.masksToBounds = true
+        recordButton.setTitleColor(.white, for: .normal)
+        recordButton.backgroundColor = .red
+        recordButton.setTitle("Start", for: .normal)
+        recordButton.layer.cornerRadius = recordButton.layer.frame.height / 2
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

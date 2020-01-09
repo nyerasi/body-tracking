@@ -18,6 +18,7 @@ class MainMenuViewController: UIViewController, ModalViewControllerDelegate {
     }
     
     private func setupButtons() {
+        // customize button styles
         for button in [launchButton, helpButton] {
             if let button = button {
                 button.layer.cornerRadius = button.layer.frame.height / 2
