@@ -1,9 +1,9 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The sample app's main view controller.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ The sample app's main view controller.
+ */
 
 import UIKit
 import RealityKit
@@ -11,9 +11,10 @@ import ARKit
 import Combine
 import ReplayKit
 
-class ViewController: UIViewController, ARSessionDelegate {
-
+class ViewController: UIViewController, ARSessionDelegate, RPPreviewViewControllerDelegate {
+    
     @IBOutlet var recordButton: UIButton!
+    @IBOutlet var recordButtonView: UIView!
     @IBOutlet var arView: ARView!
     @IBOutlet var timerView: UIView!
     @IBOutlet var timerLabel: UILabel!
@@ -24,17 +25,17 @@ class ViewController: UIViewController, ARSessionDelegate {
     // controls recording
     var isRecording = false
     let recorder = RPScreenRecorder.shared()
- 
+    
     /*
-    @IBAction func showDataPressed(_ sender: Any) {
-        if shouldShowData {
-            printoutTextView.text = printoutText
-            printoutTextView.alpha = 1
-        } else {
-            printoutTextView.alpha = 0
-        }
-        shouldShowData = !shouldShowData
-    }
+     @IBAction func showDataPressed(_ sender: Any) {
+     if shouldShowData {
+     printoutTextView.text = printoutText
+     printoutTextView.alpha = 1
+     } else {
+     printoutTextView.alpha = 0
+     }
+     shouldShowData = !shouldShowData
+     }
      */
     
     var timer: Timer?
@@ -58,21 +59,75 @@ class ViewController: UIViewController, ARSessionDelegate {
     }
     
     func startRecording() {
-        presentTimer()
-        recordButton.setTitle("Stop", for: .normal)
-        recordButton.layer.cornerRadius = 10
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { (timer) in
-            self.updateTimerLabel()
-        })
+        // https://www.appcoda.com/replaykit/
+        guard recorder.isAvailable else {
+            print("Recording is not available at this time.")
+            return
+        }
+        
+        recorder.startRecording { [unowned self] (error) in
+            
+            guard error == nil else {
+                print("There was an error starting the recording.")
+                return
+            }
+            
+            print("Started Recording Successfully")
+            //            self.isRecording = true
+            self.presentTimer()
+            self.recordButton.setTitle("Stop", for: .normal)
+            self.recordButton.layer.cornerRadius = 10
+            self.recordButtonView.layer.cornerRadius = 10
+//            self.recordButtonView.animateCornerRadius(from: self.recordButtonView.layer.frame.height / 2, to: 10, duration: 0.25)
+            self.timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { (timer) in
+                self.updateTimerLabel()
+            })
+        }
     }
     
     func stopRecording() {
-        saveRecording()
-        timer?.invalidate()
-        milliseconds = 0
-        hideTimer()
-        recordButton.setTitle("Start", for: .normal)
-        recordButton.layer.cornerRadius = recordButton.layer.frame.height / 2
+        // https://www.appcoda.com/replaykit/
+        recorder.stopRecording { [unowned self] (preview, error) in
+            print("Stopped recording")
+            
+            guard preview != nil else {
+                print("Preview controller is not available.")
+                return
+            }
+            
+            let alert = UIAlertController(title: "Recording Finished", message: "Would you like to edit or delete your recording?", preferredStyle: .alert)
+            
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action: UIAlertAction) in
+                self.recorder.discardRecording(handler: { () -> Void in
+                    print("Recording suffessfully deleted.")
+                })
+            })
+            
+            let editAction = UIAlertAction(title: "Edit", style: .default, handler: { (action: UIAlertAction) -> Void in
+                preview?.previewControllerDelegate = self
+                self.present(preview!, animated: true, completion: nil)
+            })
+            
+            alert.addAction(editAction)
+            alert.addAction(deleteAction)
+            self.present(alert, animated: true, completion: nil)
+            self.isRecording = false
+            
+            self.timer?.invalidate()
+            self.milliseconds = 0
+            self.hideTimer()
+            self.recordButton.setTitle("Start", for: .normal)
+            self.recordButton.layer.cornerRadius = self.recordButton.layer.frame.height / 2
+            self.recordButtonView.layer.cornerRadius = self.recordButtonView.layer.frame.height / 2
+//            self.recordButtonView.animateCornerRadius(from: 10, to: self.recordButtonView.layer.frame.height / 2, duration: 0.25)
+            
+            // reset printout text
+            self.printoutText = ""
+        }
+    }
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        dismiss(animated: true)
     }
     
     func updateTimerLabel() {
@@ -99,7 +154,7 @@ class ViewController: UIViewController, ARSessionDelegate {
             self.timerLabel.alpha = 0
         }
     }
-
+    
     // placeholder for ReplayKit functionality
     func saveRecording() {
         let alertViewController = UIAlertController(title: "Recording Saved", message: "New \(milliseconds / 100)-second recording has been saved to camera roll", preferredStyle: .alert)
@@ -124,6 +179,9 @@ class ViewController: UIViewController, ARSessionDelegate {
         recordButton.backgroundColor = .red
         recordButton.setTitle("Start", for: .normal)
         recordButton.layer.cornerRadius = recordButton.layer.frame.height / 2
+        
+        recordButtonView.layer.masksToBounds = true
+        recordButtonView.layer.cornerRadius = recordButtonView.layer.frame.height / 2
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -134,7 +192,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         guard ARBodyTrackingConfiguration.isSupported else {
             fatalError("This feature is only supported on devices with an A12 chip")
         }
-
+        
         // Run a body tracking configration.
         let configuration = ARBodyTrackingConfiguration()
         arView.session.run(configuration)
@@ -165,7 +223,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         printoutText += "\n anchor name: \(String(describing: anchor.name))"
         printoutText += "\n anchor description: \(anchor.description)"
         printoutText += "\n anchor transform: \(anchor.transform)"
-//        printoutTextView.text = printoutText
+        //        printoutTextView.text = printoutText
     }
     
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
@@ -173,7 +231,7 @@ class ViewController: UIViewController, ARSessionDelegate {
             guard let bodyAnchor = anchor as? ARBodyAnchor else { continue }
             
             // Write data to text view — performance nightmare
-//            writeAnchor(anchor: bodyAnchor)
+            writeAnchor(anchor: bodyAnchor)
             
             // Update the position of the character anchor's position.
             let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
@@ -181,7 +239,7 @@ class ViewController: UIViewController, ARSessionDelegate {
             // Also copy over the rotation of the body anchor, because the skeleton's pose
             // in the world is relative to the body anchor's rotation.
             characterAnchor.orientation = Transform(matrix: bodyAnchor.transform).rotation
-   
+            
             if let character = character, character.parent == nil {
                 // Attach the character to its anchor as soon as
                 // 1. the body anchor was detected and

@@ -114,7 +114,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VhR-gt-Tm3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-878.26086956521749" y="-483.48214285714283"/>
+            <point key="canvasLocation" x="-767" y="-498"/>
         </scene>
         <!--ARView-->
         <scene sceneID="tne-QT-ifu">
@@ -124,6 +124,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gDG-Si-i2l">
+                                <rect key="frame" x="157" y="715.5" width="100" height="100"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="ai9-2l-sNl"/>
+                                    <constraint firstAttribute="width" constant="100" id="ooL-hg-j5f"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ON-81-KQU">
                                 <rect key="frame" x="169.5" y="728" width="75" height="75"/>
                                 <constraints>
@@ -154,9 +162,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="gDG-Si-i2l" firstAttribute="centerY" secondItem="5ON-81-KQU" secondAttribute="centerY" id="2ST-MV-NRD"/>
                             <constraint firstItem="BOn-9i-YcO" firstAttribute="centerX" secondItem="L85-Bd-MZp" secondAttribute="centerX" id="PFn-Mc-gUW"/>
                             <constraint firstItem="L85-Bd-MZp" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="PKc-AX-PpK"/>
                             <constraint firstItem="5ON-81-KQU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Set-Sx-hcY"/>
+                            <constraint firstItem="gDG-Si-i2l" firstAttribute="centerX" secondItem="5ON-81-KQU" secondAttribute="centerX" id="VVp-8C-JID"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5ON-81-KQU" secondAttribute="bottom" constant="59" id="a7w-lw-LGy"/>
                             <constraint firstItem="BOn-9i-YcO" firstAttribute="centerY" secondItem="L85-Bd-MZp" secondAttribute="centerY" id="dD4-oz-1PV"/>
                             <constraint firstItem="BOn-9i-YcO" firstAttribute="height" secondItem="L85-Bd-MZp" secondAttribute="height" multiplier="0.42" id="fLW-0E-qgw"/>
@@ -175,6 +185,7 @@
                     <connections>
                         <outlet property="arView" destination="8bC-Xf-vdC" id="hvU-Ek-za3"/>
                         <outlet property="recordButton" destination="5ON-81-KQU" id="mjJ-zV-Vad"/>
+                        <outlet property="recordButtonView" destination="gDG-Si-i2l" id="g2j-zX-wSS"/>
                         <outlet property="timerLabel" destination="BOn-9i-YcO" id="hrw-kI-8Qg"/>
                         <outlet property="timerView" destination="L85-Bd-MZp" id="QqX-Nn-qsG"/>
                     </connections>
