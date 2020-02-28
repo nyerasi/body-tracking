@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 class MainMenuViewController: UIViewController, ModalViewControllerDelegate {
-    @IBOutlet var launchButton: UIButton!
-    @IBOutlet var helpButton: UIButton!
+
+    @IBOutlet var buttonStackView: UIStackView!
     
     override func viewDidLoad() {
         setupButtons()
@@ -19,8 +19,8 @@ class MainMenuViewController: UIViewController, ModalViewControllerDelegate {
     
     private func setupButtons() {
         // customize button styles
-        for button in [launchButton, helpButton] {
-            if let button = button {
+        for subview in buttonStackView.arrangedSubviews {
+            if let button = subview as? UIButton {
                 button.layer.cornerRadius = button.layer.frame.height / 2
                 button.layer.masksToBounds = true
                 button.setTitleColor(.white, for: .normal)

@@ -20,6 +20,7 @@
 		B02E9028239762550003D5ED /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E9027239762550003D5ED /* AboutViewController.swift */; };
 		B0EFC392239B765E007924D2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC391239B765E007924D2 /* Data.swift */; };
 		B0EFC394239B77F6007924D2 /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC393239B77F6007924D2 /* PersonTableViewCell.swift */; };
+		B0F63A552409A1EC00B9E0EA /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F63A542409A1EC00B9E0EA /* ReviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		B02E9027239762550003D5ED /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		B0EFC391239B765E007924D2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		B0EFC393239B77F6007924D2 /* PersonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTableViewCell.swift; sourceTree = "<group>"; };
+		B0F63A542409A1EC00B9E0EA /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				2F60E1DC22631E0F00357E98 /* ViewController.swift */,
 				B02E902523974E870003D5ED /* MainMenuViewController.swift */,
 				B02E9027239762550003D5ED /* AboutViewController.swift */,
+				B0F63A542409A1EC00B9E0EA /* ReviewViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				2F60E1DB22631E0F00357E98 /* AppDelegate.swift in Sources */,
 				B02E9028239762550003D5ED /* AboutViewController.swift in Sources */,
 				B0EFC394239B77F6007924D2 /* PersonTableViewCell.swift in Sources */,
+				B0F63A552409A1EC00B9E0EA /* ReviewViewController.swift in Sources */,
 				B02E902423974DB80003D5ED /* UIExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
