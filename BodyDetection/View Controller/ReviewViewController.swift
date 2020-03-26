@@ -18,4 +18,8 @@ class ReviewViewController: UIViewController {
         textView.text = transformPrintout
     }
     
+    func formatTextPrintout() {
+        
+    }
+    
 }

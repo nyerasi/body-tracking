@@ -27,11 +27,6 @@ class ViewController: UIViewController, ARSessionDelegate, RPPreviewViewControll
     var isRecording = false
     let recorder = RPScreenRecorder.shared()
     
-    // attempting to bypass preview view controller:
-    var videoOutputURL: URL = URL(fileURLWithPath: "")
-    var videoWriter: AVAssetWriter?
-    var videoWriterInput: AVAssetWriterInput?
-    
     /*
      @IBAction func showDataPressed(_ sender: Any) {
      if shouldShowData {
@@ -64,111 +59,8 @@ class ViewController: UIViewController, ARSessionDelegate, RPPreviewViewControll
         }
     }
     
-    // attempting to record without presenting preview view controller: https://stackoverflow.com/questions/33484101/how-to-save-replaykit-video-to-camera-roll-with-in-app-button?rq=1
-    /*
-       @objc func startScreenRecording() {
-           //Use ReplayKit to record the screen
+    // try recording without presenting preview view controller: https://stackoverflow.com/questions/33484101/how-to-save-replaykit-video-to-camera-roll-with-in-app-button?rq=1
 
-           //Create the file path to write to
-           let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-           self.videoOutputURL = URL(fileURLWithPath: documentsPath.appendingPathComponent("MyVideo.mp4"))
-
-           //Check the file does not already exist by deleting it if it does
-           do {
-               try FileManager.default.removeItem(at: videoOutputURL)
-           } catch {}
-
-
-           do {
-               try videoWriter = AVAssetWriter(outputURL: videoOutputURL, fileType: AVFileType.mp4)
-           } catch let writerError as NSError {
-               print("Error opening video file", writerError)
-               videoWriter = nil
-               return
-           }
-
-           //Create the video settings
-           let videoSettings: [String : Any] = [
-               AVVideoCodecKey  : AVVideoCodecType.h264,
-               AVVideoWidthKey  : 1920,  //Replace as you need
-               AVVideoHeightKey : 1080   //Replace as you need
-           ]
-
-           //Create the asset writer input object whihc is actually used to write out the video
-           //with the video settings we have created
-           videoWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: videoSettings)
-           
-           // NBY: safe to do guard let for videoWriter and videoWriterInput?
-           guard let videoWriter = videoWriter else { return }
-           guard let videoWriterInput = videoWriterInput else { return }
-           
-           videoWriter.add(videoWriterInput)
-
-           //Tell the screen recorder to start capturing and to call the handler when it has a
-           //sample
-           RPScreenRecorder.shared().startCapture(handler: { (cmSampleBuffer, rpSampleType, error) in
-
-               guard error == nil else {
-                   //Handle error
-                   print("Error starting capture")
-                   return
-               }
-
-               switch rpSampleType {
-                   case RPSampleBufferType.video:
-                       print("writing sample....")
-                       if self.videoWriter.status == AVAssetWriter.Status.unknown {
-
-                           if (( self.videoWriter?.startWriting ) != nil) {
-                               print("Starting writing")
-                               self.videoWriter.startWriting()
-                               self.videoWriter.startSession(atSourceTime:  CMSampleBufferGetPresentationTimeStamp(cmSampleBuffer))
-                           }
-                       }
-
-                       if self.videoWriter.status == AVAssetWriter.Status.writing {
-                           if (self.videoWriterInput.isReadyForMoreMediaData == true) {
-                               print("Writing a sample")
-                               if  self.videoWriterInput.append(cmSampleBuffer) == false {
-                                   print(" we have a problem writing video")
-                               }
-                           }
-                   }
-
-                   default:
-                       print("not a video sample, so ignore")
-               }
-           } )
-       }
-
-       @objc func stopScreenRecording() {
-           //Stop Recording the screen
-           RPScreenRecorder.shared().stopCapture( handler: { (error) in
-               print("stopping recording")
-           })
-           
-           self.videoWriterInput.markAsFinished()
-           self.videoWriter.finishWriting {
-               print("finished writing video")
-
-               //Now save the video
-               PHPhotoLibrary.shared().performChanges({
-                   PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: self.videoOutputURL)
-               }) { saved, error in
-                   if saved {
-                       let alertController = UIAlertController(title: "Your video was successfully saved", message: nil, preferredStyle: .alert)
-                       let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                       alertController.addAction(defaultAction)
-                       self.present(alertController, animated: true, completion: nil)
-                   }
-                   if error != nil {
-                       print("Video did not save for some reason", error.debugDescription)
-                       debugPrint(error?.localizedDescription ?? "error is nil")
-                   }
-               }
-           }
-       */
-    
     func startRecording() {
         // https://www.appcoda.com/replaykit/
         guard recorder.isAvailable else {
@@ -304,14 +196,13 @@ class ViewController: UIViewController, ARSessionDelegate, RPPreviewViewControll
         })
     }
     
-    
     @IBAction func restartPressed(_ sender: Any) {
         printoutText = ""
     }
     
     // The 3D character to display.
     var character: BodyTrackedEntity?
-    let characterOffset: SIMD3<Float> = [-1.0, 0, 0] // Offset the character by one meter to the left
+    let characterOffset: SIMD3<Float> = [0, 0, 0] // Offset the character by one meter to the left
     let characterAnchor = AnchorEntity()
     
     override func viewDidLoad() {
@@ -360,20 +251,39 @@ class ViewController: UIViewController, ARSessionDelegate, RPPreviewViewControll
         })
     }
     
-    func writeAnchor(anchor: ARAnchor) {
+    func writeLowerBodyAnchors(anchor: ARBodyAnchor) {
         // adding to a string
-        // goal is to save the knee transform
-        printoutText += "\n anchor name: \(String(describing: anchor.name))"
-        printoutText += "\n anchor description: \(anchor.description)"
-        printoutText += "\n anchor transform: \(anchor.transform)"
+        // goal is to save the knee transform(s) to start
+        let rightFootTransform = anchor.skeleton.localTransform(for: .rightFoot)
+        let leftFootTransform = anchor.skeleton.localTransform(for: .leftFoot)
+
+        printoutText += "\n local transform for right foot: \(rightFootTransform!)"
+        printoutText += "\n local transform for left foot: \(leftFootTransform!)"
+        printoutText += "\n local transform for root: \(anchor.skeleton.localTransform(for: .root)!)"
+        
+        // goal is to annotate the left and right feet with custom views... very taxing
+        
+        /*
+        let leftFootAnchor = AnchorEntity()
+        arView.scene.addAnchor(leftFootAnchor)
+        let sphere = MeshResource.generateSphere(radius: 0.5)
+        let entity = ModelEntity(mesh: sphere)
+        if let matrix = rightFootTransform {
+            let transform = Transform(matrix: matrix)
+            entity.transform = transform
+            leftFootAnchor.addChild(entity)
+            print("added right foot entity")
+        }
+         */
     }
-    
+
+    // primary function called to update character
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
         for anchor in anchors {
             guard let bodyAnchor = anchor as? ARBodyAnchor else { continue }
             
-            // Write data to text view — performance nightmare
-            writeAnchor(anchor: bodyAnchor)
+            // Write data to text view — performance nightmare probably
+            writeLowerBodyAnchors(anchor: bodyAnchor)
             
             // Update the position of the character anchor's position.
             let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
