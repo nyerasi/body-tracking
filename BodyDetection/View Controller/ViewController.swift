@@ -276,6 +276,15 @@ class ViewController: UIViewController, ARSessionDelegate, RPPreviewViewControll
         }
          */
     }
+    
+    func writeAllAnchors(anchor: ARBodyAnchor) {
+        // using force unwrapping...
+        let joints = [ARSkeleton.JointName.head, ARSkeleton.JointName.leftShoulder, ARSkeleton.JointName.rightShoulder, ARSkeleton.JointName.leftHand, ARSkeleton.JointName.rightHand, ARSkeleton.JointName.root, ARSkeleton.JointName.leftFoot, ARSkeleton.JointName.rightFoot]
+        for joint in joints {
+            printoutText += "\n local transform for \(joint): \(anchor.skeleton.localTransform(for: joint)!)"
+            printoutText += "\n model transform for \(joint): \(anchor.skeleton.modelTransform(for: joint)!)"
+        }
+    }
 
     // primary function called to update character
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
